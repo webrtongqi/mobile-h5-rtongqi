@@ -15,6 +15,6 @@ export default {
 </script>
 <style scoped lang="less">
   .Classify{
-  	font-size: 40px;
+  	font-size: 40/36rem;
   }
 </style>

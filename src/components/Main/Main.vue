@@ -19,6 +19,6 @@ export default {
 </script>
 <style scoped lang="less">
   .Main{
-  	font-size: 40px
+  	font-size: 40/36rem;
   }
 </style>
