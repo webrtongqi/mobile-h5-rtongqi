@@ -16,5 +16,7 @@ export default {
 }
 </script>
 <style scoped lang="less">
-  
+  .content{
+    padding: 0 20/36rem;
+  }
 </style>

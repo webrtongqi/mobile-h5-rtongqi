@@ -1,15 +1,19 @@
 <template>
-  <div class="Mine">
-      {{msg}}
-  </div>
+ <div>
+ 	<mt-button size="normal" type="default">default</mt-button>
+	<mt-button type="primary">primary</mt-button>
+	<mt-button type="danger">danger</mt-button>
+ </div>
 </template>
-
 <script>
 export default {
   data () {
     return {
-      msg:"我的"
+      pickerValue:""
     }
+  },
+  mounted(){
+  	
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-   <ul class="navBar clearfix" ref="elememt">
+   <ul class="navBar clearfix" :style="{ width: msg + 'px' }">
       <li>
       	 <router-link to="/Main" class="nav">
       	 	<span>首页</span>
@@ -25,7 +25,17 @@
 
 <script>
 export default {
-  
+  data () {
+    return {
+      msg: document.body.offsetWidth
+    }
+  },
+  mounted(){
+  	 var that = this;
+  	 window.addEventListener('resize', function(){
+  	 	that.msg = document.body.offsetWidth
+  	 }, false)
+  }
 }
 </script>
 <style scoped lang="less">
@@ -45,6 +55,7 @@ export default {
 	    left: 0;
 	    right: 0;
 	    background:#fff;
+	    margin: 0 auto;
 	    li{
 	      width: 25%;
 	      float: left;
