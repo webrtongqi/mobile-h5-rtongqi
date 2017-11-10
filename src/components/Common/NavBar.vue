@@ -56,6 +56,7 @@ export default {
 	    right: 0;
 	    background:#fff;
 	    margin: 0 auto;
+	    z-index: 1000;
 	    li{
 	      width: 25%;
 	      float: left;
