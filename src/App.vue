@@ -10,6 +10,6 @@ export default {
 }
 </script>
 
-<style>
+<style leng="scss">
   @import "../static/css/mobile.common.css";
 </style>

@@ -135,9 +135,10 @@ import TimePicker from '../Common/TimePicker.vue'
 
   };
 </script>
-<style scoped lang="less">
+<style lang="scss" scoped>
+@import '../../assets/function';
  section{
- 	padding-bottom: 120/36rem;
+ 	padding-bottom: rem(120);
   }
  .mint-header{
  	background: #fff;
@@ -158,16 +159,16 @@ import TimePicker from '../Common/TimePicker.vue'
 	padding-bottom: 0.566666666rem;
 	margin-top: 0.55555556rem;
 	.more{
-		font-size: 26/36rem;
+		font-size: rem(26);
 		text-align: center;
-		line-height: 60/36rem;
+		line-height: rem(60);
 		color: #999999;
 	}
 	.feed-top{
 		position: relative;
 		img{
 			width: 100%;
-			height: 130/36rem;
+			height: rem(130);
 		}
 		span{
 			text-align: center;
@@ -180,24 +181,24 @@ import TimePicker from '../Common/TimePicker.vue'
 		}
 	}
 	.feed-ul{
-		padding: 0 24/36rem;
+		padding: 0 rem(24);
 	}
 	.feed-list{
-		margin-bottom: 20/36rem;
+		margin-bottom: rem(20);
 		border: 1px solid #efefef;
 
 		.institution{
-			padding: 20/36rem;
+			padding: rem(20);
 			span{
 				font-size: 0.7222222rem;
     			color: #999999;
 			}
 			.organization-head{
-				width: 40/36rem;
-				height: 40/36rem;
+				width: rem(40);
+				height: rem(40);
 				position: relative;
 				display: inline-block;
-				margin-right: 5/36rem;
+				margin-right: rem(5);
 			}
 			.organization-head-img{
 				width: 100%;
@@ -205,8 +206,8 @@ import TimePicker from '../Common/TimePicker.vue'
 				border-radius: 50%;
 			}
 			.approve{
-				width: 20/36rem;
-				height: 20/36rem;
+				width: rem(20);
+				height: rem(20);
 				position: absolute;
 				right: 0;
 				bottom: 0;
@@ -232,7 +233,7 @@ import TimePicker from '../Common/TimePicker.vue'
 			    left: 0;
 			    right: 0;
 			    background: url(https://sapi.51kupai.com/mobile/images/teaset/shade.png);
-			    padding: 0.3rem 0 17/36rem 0.6666666667rem;
+			    padding: 0.3rem 0 rem(17) 0.6666666667rem;
 			    p{
 			    	width: 75%;
 			    }
@@ -280,7 +281,7 @@ import TimePicker from '../Common/TimePicker.vue'
 			}
 			.auction-img{
 				width: 100%;
-				height: 468/36rem;
+				height: rem(468);
 			}
 			.attention-num {
 			    position: absolute;
@@ -299,20 +300,20 @@ import TimePicker from '../Common/TimePicker.vue'
 			}
 		}
 		.referrers{
-			padding: 24/36rem;
+			padding: rem(24);
 			
 			border-bottom: 1px solid #EFEFEF;
 			.referrer-tops{
 				position: relative;
 			}
 			.recommend-language{
-				font-size: 38/36rem;
+				font-size: rem(38);
 				color: #333;
-				padding: 35/36rem 0/36rem 10/36rem 0/36rem;
+				padding: rem(35) 0 rem(10) 0;
 				position: relative;
 				text-align: center;
 				sup{
-					font-size: 45/36rem;
+					font-size: rem(45);
 					display: inline-block;
 					top: 0;
 				}
@@ -322,18 +323,18 @@ import TimePicker from '../Common/TimePicker.vue'
 				}
 			}
 			.top-img{
-				width: 80/36rem;
-				height: 80/36rem;
+				width: rem(80);
+				height: rem(80);
 				border-radius: 50%;
-				margin-right: 20/36rem;
+				margin-right: rem(20);
 				float: left;
 			}
 			.approve{
-				width: 28/36rem;
-				height: 28/36rem;
+				width: rem(28);
+				height: rem(28);
 				position: absolute;
-				left: 50/36rem;
-				top: 50/36rem;
+				left: rem(50);
+				top: rem(50);
 			}
 			.name{
 				float: left;
@@ -345,7 +346,7 @@ import TimePicker from '../Common/TimePicker.vue'
 				    margin-right: 0.27777778rem;
 				}
 				.referrer-label{
-					width: 84/36rem;
+					width:rem(84);
 					height: 100%;
 				}
 				.curator{
@@ -356,18 +357,18 @@ import TimePicker from '../Common/TimePicker.vue'
 			}
 		}
 		.price{
-			padding: 30/36rem 0;
+			padding:rem(30) 0;
 			p:nth-child(1){
 				border-right: 1px solid #EFEFEF;
 			}
 			p{
 				width: 50%;
 				float: left;
-				font-size: 30/36rem;
+				font-size: rem(30);
 				color: #333;
 				text-align: center;
 				span{
-					font-size: 30/36rem;
+					font-size: rem(30);
 				}
 			}
 		}
@@ -409,7 +410,7 @@ import TimePicker from '../Common/TimePicker.vue'
     display: inline-block;
     height: 0;
     border-top: none;
-    border-bottom: 50/36rem #959595 solid;
+    border-bottom: rem(50) #959595 solid;
     border-right: transparent 0.83333333rem solid;
     border-left: none;
     line-height: 1.38888889rem;
@@ -419,13 +420,13 @@ import TimePicker from '../Common/TimePicker.vue'
     font-size: 0.587rem;
 }
 .status-time[bidStatus="2"] {
-    border-bottom: 50/36rem #b28147 solid;
+    border-bottom: rem(50) #b28147 solid;
 }
 .status-time[bidStatus="3"] {
-    border-bottom: 50/36rem #c4311d solid;
+    border-bottom:rem(50) #c4311d solid;
 }
 #load{
-	line-height: 80/36rem;
+	line-height: rem(80);
 	font-size: 0.75rem;
 	text-align: center;
 	display: none;

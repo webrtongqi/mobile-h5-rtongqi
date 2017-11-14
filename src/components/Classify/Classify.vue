@@ -5,11 +5,15 @@
 </template>
 
 <script>
+import RSM from 'create-ecdh'
 export default {
   data () {
     return {
       msg:"分类"
     }
+  },
+  mounted(){
+   console.log(RSM.JSEncrypt())
   }
 }
 </script>

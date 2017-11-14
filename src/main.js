@@ -6,6 +6,7 @@ import router from './router'
 import MintUI from 'mint-ui'
 import base from '../static/js/common.js' 
 import 'mint-ui/lib/style.css'
+import './assets/function.scss';
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios;
 Vue.prototype.$qs = qs;
