@@ -433,7 +433,6 @@ table {
         font-size: 32px;
     }
 }
-
 @media screen and (min-width: 1024px) {  
     body {
         width: 740px;

@@ -18,7 +18,9 @@
 	  	 <img src="//img.51kupai.com/pic/750-500-e16de4572915d40f90bbe46444746690/750">
 	  </mt-swipe-item>
 	</mt-swipe>
-  	 <CommonFend :feedList="feedList"></CommonFend>
+	<mt-loadmore :bottom-method="request" ref="loadmore">
+        <CommonFend :feedList="feedList"></CommonFend>
+    </mt-loadmore>
   	 <mt-button class="button" size="large" type="danger" @click="openPickers">primary</mt-button>
   </div>
 </template>
@@ -37,7 +39,7 @@ import CommonFend from '../Common/CommonFend.vue'
       	url:"https://sapi.51kupai.com/mobile/images",
       	hasNext:1,
       	loading:false,
-      	page:1
+      	page:1,
       };
     },
     components: {
@@ -47,22 +49,27 @@ import CommonFend from '../Common/CommonFend.vue'
     },
     methods: {
     	request(){
-    		if (!this.loading){
-    			this.loading = true;
-    			this.$axios.post('/kupai/h5/bidListByClassId', 
-	    		this.$qs.stringify({
-	    			classId:88,
-	    			page:this.page,
-	    			pageSize:6
-	    		})
-		    	).then(function (response) {
-		    		if(response.data.data.feedList.length == 0){
-		    			 this.hasNext = 0;
-		    		}
-		    	    this.feedList = response.data.data.feedList;
-		    	    this.loading = false;
-		    	}.bind(this));
-    		}
+	    	this.$axios({
+			  	method: 'post',
+			  	url: '/kupai/h5/bidListByClassId',
+			  	data: {
+			    	classId:88,
+    				page:1,
+    				pageSize:6
+			  	}
+			}).then(function(response) {
+  				 this.feedList = response.data.data.feedList;
+			}.bind(this));
+
+			this.$axios({
+			  	method: 'get',
+			  	url: '/kupai/bidOptimization/getBidDetail',
+			  	data: {
+			    	saleId:1474446571
+			  	}
+			}).then(function(response) {
+  				 //this.feedList = response.data.data.feedList;
+			}.bind(this));
     	},
     	evsent(data){
           this.picker = data;
@@ -70,14 +77,13 @@ import CommonFend from '../Common/CommonFend.vue'
     	},
     	openPickers(){
     		this.$refs.child.openPicker()
-    	},
+    	}
     },
     mounted(){
     	 var that = this;
 	  	 window.addEventListener('resize', function(){
 	  	 	that.msg = document.body.offsetWidth
 	  	 }, false)
-    	this.request();
   	},
 
   };
