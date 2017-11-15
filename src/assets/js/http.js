@@ -7,7 +7,7 @@ axios.defaults.timeout = 5000;
 axios.interceptors.request.use(
     config => {
         config.headers = {
-            _bkAccessToken_:"s",
+            '_bkAccessToken_':"token",
             'kp-app-id':10001,
             'Content-Type':'application/x-www-form-urlencoded'
         }
@@ -26,7 +26,11 @@ axios.interceptors.request.use(
 */
 axios.interceptors.response.use(
     response => {
-        return response;
+        if(response.data.status){
+            return response;
+        }else{
+            
+        }
     },
     error => {
         if (error.response) {

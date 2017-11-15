@@ -49,6 +49,7 @@ import CommonFend from '../Common/CommonFend.vue'
     },
     methods: {
     	request(){
+    		console.log(this.$config.url)
 	    	this.$axios({
 			  	method: 'post',
 			  	url: '/kupai/h5/bidListByClassId',
