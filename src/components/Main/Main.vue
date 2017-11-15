@@ -9,7 +9,8 @@
 	</mt-header>
 	<mt-swipe :auto="4000">
 	  <mt-swipe-item>
-	    <img src="//img.51kupai.com/pic/750-500-53470ab1e173cded4fb83daa462de11b/750"></mt-swipe-item>
+	     <img src="//img.51kupai.com/pic/750-500-53470ab1e173cded4fb83daa462de11b/750">
+	 </mt-swipe-item>
 	  <mt-swipe-item>
 	  	<img src="//img.51kupai.com/pic/750-500-0823764c90ca2de772bc6d259b5c3a98/750">
 	  </mt-swipe-item>
@@ -35,9 +36,7 @@
 			      <span>{{bidsLists.bidGoods.supplier.supplierName}}</span>
 			    </div>
 			    <div class="feed-list-top" @click="skip(bidsLists)">
-			      	<div class="status-time downTime">
-			       		9月9日 16:07 已结拍
-			      	</div>
+			      	 <CountDown :data="bidsLists"></CountDown>
 				    <img :src="imgHref(bidsLists.bidGoods.pic,720)" 
 				      class="auction-img" 
 				      onerror="javascript:this.src='https://sapi.51kupai.com/mobile/images/teaset/default.png'" />
@@ -71,13 +70,13 @@
 		    </li>
 	   </ul>
   	</div>
+  	 <mt-button class="button" size="large" type="danger" @click="openPickers">primary</mt-button>
   	</section>
-  <!--   <mt-button class="button" size="large" type="danger" @click="openPickers">primary</mt-button> -->
   </div>
 </template>
-
 <script>
 import TimePicker from '../Common/TimePicker.vue'
+import CountDown from '../Common/CountDown.vue'
  export default {
     data() {
       return {
@@ -86,15 +85,17 @@ import TimePicker from '../Common/TimePicker.vue'
       	parentMsg:'',
       	feedList:[],
       	url:"https://sapi.51kupai.com/mobile/images",
+      	hasNext:1,
+      	loading:false,
+      	page:1
       };
     },
     components: {
-       TimePicker
+       TimePicker,CountDown
     },
     methods: {
     	evsent(data){
           this.picker = data;
-          alert(data)
     	},
     	openPickers(){
     		this.$refs.child.openPicker()
@@ -117,28 +118,52 @@ import TimePicker from '../Common/TimePicker.vue'
     	},
     	skip(data){
     		alert(data.saleId)
+    	},
+    	request(){
+    		if (!this.loading){
+    			this.loading = true;
+    			this.$axios.post('/kupai/h5/bidListByClassId', 
+	    		this.$qs.stringify({
+	    			classId:88,
+	    			page:this.page,
+	    			pageSize:6
+	    		})
+		    	).then(function (response) {
+		    		if(response.data.data.feedList.length == 0){
+		    			 this.hasNext = 0;
+		    		}
+		    	    this.feedList = response.data.data.feedList;
+		    	    this.loading = false;
+		    	}.bind(this));
+    		}
+    	},
+    	upload(){
+    		let that = this;
+    		window.addEventListener("scroll",function() {
+				if(!that.hasNext || that.loading){
+				  	 return;
+				}
+				console.log(window.scrollTop,document.height)
+			    if(window.scrollTop >= document.height - window.height - 60) {
+			         that.page++;
+			         that.requests();
+
+			    }
+   			});
     	}
     },
     mounted(){
-    	document.title= "首页"
-    	this.$axios.post('/kupai/h5/bidListByClassId', 
-    		this.$qs.stringify({
-    			classId:85,
-    			page:5,
-    			pageSize:2
-    		})
-    	).then(function (response) {
-    	    this.feedList = response.data.data.feedList
-    	}.bind(this));
-
+    	this.request();
+    	this.upload();
   	},
 
   };
 </script>
 <style lang="scss" scoped>
-@import '../../assets/function';
+@import '../../assets/scss/function';
  section{
  	padding-bottom: rem(120);
+
   }
  .mint-header{
  	background: #fff;
@@ -260,9 +285,7 @@ import TimePicker from '../Common/TimePicker.vue'
 				.brand-name {
 				    font-size: 0.83333333rem;
 				    color: #FFFFFF;
-				    margin-top: 0.2rem;
-				   
-				    
+				    margin-top: 0.2rem; 
 				}
 				.location {
 				    color: #ccc;
@@ -402,28 +425,6 @@ import TimePicker from '../Common/TimePicker.vue'
 		}
 	}
 	
-}
-.status-time {
-    position: absolute;
-    left: 0;
-    top: 0.55555556rem;
-    display: inline-block;
-    height: 0;
-    border-top: none;
-    border-bottom: rem(50) #959595 solid;
-    border-right: transparent 0.83333333rem solid;
-    border-left: none;
-    line-height: 1.38888889rem;
-    padding-left: 0.27777778rem;
-    padding-right: 0.27777778rem;
-    color: #fff;
-    font-size: 0.587rem;
-}
-.status-time[bidStatus="2"] {
-    border-bottom: rem(50) #b28147 solid;
-}
-.status-time[bidStatus="3"] {
-    border-bottom:rem(50) #c4311d solid;
 }
 #load{
 	line-height: rem(80);

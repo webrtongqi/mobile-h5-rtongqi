@@ -11,5 +11,5 @@ export default {
 </script>
 
 <style leng="scss">
-  @import "../static/css/mobile.common.css";
+  @import "./assets/css/mobile.common.css";
 </style>
