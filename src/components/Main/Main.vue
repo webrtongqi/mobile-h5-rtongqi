@@ -22,6 +22,7 @@
         <CommonFend :feedList="feedList"></CommonFend>
     </mt-loadmore>
   	 <mt-button class="button" size="large" type="danger" @click="openPickers">primary</mt-button>
+
   </div>
 </template>
 <script>
@@ -31,6 +32,7 @@ import CommonFend from '../Common/CommonFend.vue'
  export default {
     data() {
       return {
+      	imgurl:this.$config.imgurl,
       	msg: document.body.offsetWidth,
       	picker:"",
       	time:new Date('2017-02-02'),

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import axios from './assets/js/http'
+import axios from './assets/js/ajax'
 import config from './assets/js/config'
 import App from './App'
 import router from './router'
