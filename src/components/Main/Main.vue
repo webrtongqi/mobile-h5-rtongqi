@@ -65,7 +65,7 @@ import CommonFend from '../Common/CommonFend.vue'
 			  	method: 'post',
 			  	url: '/kupai/h5/bidListByClassId',
 			  	data: {
-			    	classId:85,
+			    	classId:88,
     				page:1,
     				pageSize:6
 			  	}
