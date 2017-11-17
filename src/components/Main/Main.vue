@@ -49,6 +49,15 @@ import CommonFend from '../Common/CommonFend.vue'
        CountDown,
        CommonFend
     },
+    created(){
+		this.$ui.Indicator.open({
+		  	text: '加载中...',
+		  	spinnerType: 'snake'
+		});
+	},
+	updated(){
+		this.$ui.Indicator.close();
+	},
     methods: {
     	request(){
     		console.log(this.$config.url)
@@ -56,12 +65,14 @@ import CommonFend from '../Common/CommonFend.vue'
 			  	method: 'post',
 			  	url: '/kupai/h5/bidListByClassId',
 			  	data: {
-			    	classId:88,
+			    	classId:85,
     				page:1,
     				pageSize:6
 			  	}
 			}).then(function(response) {
-  				 this.feedList = response.data.data.feedList;
+				if(response.data.status){
+  				   this.feedList = response.data.data.feedList;
+				}
 			}.bind(this));
 
 			this.$axios({

@@ -44,9 +44,17 @@
 					    </div>
 				      	<p class="recommend-language" v-if="bidsLists.bidGoods.recommenduser.recommendDesc?true:false"><b>“</b><span class="one_line">{{bidsLists.bidGoods.recommenduser.recommendDesc}}</span><b>”</b></p>
 				     </div>
-				     <div class="price clearfix">
-				      	<p style="color:#C4311D">成交价&yen;2.00万</p>
-				      	<p>最高出价&yen;2.01万</p>
+				     <div class="price clearfix" v-if="bidsLists.bidStatus<3">
+				      	<p style="color:#B28147">起拍价&yen;{{bidsLists.initialPrice}}</p>
+				      	<p>保证金&yen;{{bidsLists.bailPrice}}</p>
+				     </div>
+				     <div class="price clearfix" v-else-if="bidsLists.bidStatus==3">
+				      	<p style="color:#C4311D">当前价&yen;{{bidsLists.maxPrice}}</p>
+				      	<p>起拍价&yen;{{bidsLists.initialPrice}}</p>
+				     </div>
+				     <div class="price clearfix" v-else>
+				      	<p style="color:#C4311D">成交价&yen;{{formatMoney(bidsLists.dealPrice)}}</p>
+				      	<p>最高出价&yen;{{formatMoney(bidsLists.maxPrice)}}</p>
 				     </div>
 			    </li>
 		   </ul>
