@@ -1,6 +1,6 @@
 <template>
 	<section id="feedList">
-		<div class="feed" v-for="(feedLists,index) in feedList" v-if="feedLists.feedType==2">
+		<div class="feed" v-for="(feedLists,index) in feedList" v-if="feedLists.feedType==2" :class="{night:feedLists.themeInfo.backgroundType==2?true:false}">
 		   	<div class="feed-top one_line">
 		    	<img :src="imgHref(feedLists.themeInfo.themeTopPic,750)" />
 		    	<span>{{feedLists.themeInfo.themeName}}</span>
@@ -10,7 +10,7 @@
 			    :bidsLists="bidsLists">
 			    </FeedList>
 		   </ul>
-		   <div class="more" v-if="feedLists.themeInfo.bidTotal-feedLists.themeInfo.bidsList.length==0?false:true" @click="loadData(feedLists.themeInfo.themeId,index)">查看更多({{feedLists.themeInfo.bidTotal-feedLists.themeInfo.bidsList.length}}件)</div>
+		   <div class="more"  page="1" v-if="feedLists.themeInfo.bidTotal-feedLists.themeInfo.bidsList.length==0?false:true" @click="loadData(feedLists.themeInfo.themeId,index,$event)">查看更多({{feedLists.themeInfo.bidTotal-feedLists.themeInfo.bidsList.length}}件)</div>
 	  	</div>
 	  	<div class="feed" v-for="(feedLists,index) in feedList" v-if="feedLists.feedType==1">
 		    <ul class="feed-ul">
@@ -25,7 +25,6 @@ import FeedList from './FeedList.vue'
     data() {
       return {
       	url:"https://sapi.51kupai.com/mobile/images",
-      	page:1
       };
     },
     components: {
@@ -33,18 +32,19 @@ import FeedList from './FeedList.vue'
     },
     props:['feedList'],
     methods: {
-    	loadData(themeId,index){
+    	loadData(themeId,index,$event){
+    		var page = $event.target.getAttribute('page');
     		this.$axios({
 			  	method: 'post',
 			  	url: '/kupai/feed/getThemeBidList',
 			  	data: {
 			    	themeId:themeId,
-			  		page:this.page
+			  		page:page
 			  	}
 			}).then(function(response) {
 				if(response.data.status){
   				  this.feedList[index].themeInfo.bidsList = this.feedList[index].themeInfo.bidsList.concat(response.data.data.bidsList);
-  				  this.page = this.page + 1;
+  				  $event.target.setAttribute('page',++page);
 				}
 			}.bind(this));
     	}
@@ -88,32 +88,6 @@ import FeedList from './FeedList.vue'
 }
 .night{
 	background: #222222;
-	.feed-list{
-		border:none;
-		background: #333333;
-		.referrers{
-			border-bottom: 1px solid #4a4a4a;
-			.recommend-language{
-				color: #fff;
-			}
-			.name{
-				.maweidu{
-					color: #FFFFFF;
-				}
-			}
-		}
-
-		.price{
-			p:nth-child(1){
-				color: #FFFFFF;
-				border-right: 1px solid #4a4a4a;
-			}
-			p:nth-child(2){
-				color: #FFFFFF 
-			}
-		}
-	}
-	
 }
 #load{
 	line-height: rem(80);

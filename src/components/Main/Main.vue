@@ -10,7 +10,7 @@
 	<mt-swipe :auto="4000">
 	  <mt-swipe-item>
 	     <img src="//img.51kupai.com/pic/750-500-53470ab1e173cded4fb83daa462de11b/750">
-	 </mt-swipe-item>
+	  </mt-swipe-item>
 	  <mt-swipe-item>
 	  	<img src="//img.51kupai.com/pic/750-500-0823764c90ca2de772bc6d259b5c3a98/750">
 	  </mt-swipe-item>
@@ -29,7 +29,7 @@
 import TimePicker from '../Common/TimePicker.vue'
 import CountDown from '../Common/CountDown.vue'
 import CommonFend from '../Common/CommonFend.vue'
- export default {
+export default {
     data() {
       return {
       	imgurl:this.$config.imgurl,
@@ -65,7 +65,7 @@ import CommonFend from '../Common/CommonFend.vue'
 			  	method: 'post',
 			  	url: '/kupai/h5/bidListByClassId',
 			  	data: {
-			    	classId:88,
+			    	classId:90,
     				page:1,
     				pageSize:6
 			  	}

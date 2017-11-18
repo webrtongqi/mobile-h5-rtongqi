@@ -52,7 +52,7 @@
     </li>
 </template>
 <script>
-import CountDown from './CountDown.vue'
+ import CountDown from './CountDown.vue'
  export default {
     data() {
       return {
@@ -277,5 +277,33 @@ import CountDown from './CountDown.vue'
 			}
 		}
 	}
+}
+.night{
+	.feed-list{
+		border:none;
+		background: #333333;
+		.referrers{
+			border-bottom: 1px solid #4a4a4a;
+			.recommend-language{
+				color: #fff;
+			}
+			.name{
+				.maweidu{
+					color: #FFFFFF;
+				}
+			}
+		}
+
+		.price{
+			p:nth-child(1){
+				color: #FFFFFF;
+				border-right: 1px solid #4a4a4a;
+			}
+			p:nth-child(2){
+				color: #FFFFFF 
+			}
+		}
+	}
+	
 }
 </style>
