@@ -18,9 +18,7 @@
 	  	 <img src="//img.51kupai.com/pic/750-500-e16de4572915d40f90bbe46444746690/750">
 	  </mt-swipe-item>
 	</mt-swipe>
-	<mt-loadmore :bottom-method="request" ref="loadmore">
-        <CommonFend :feedList="feedList"></CommonFend>
-    </mt-loadmore>
+     <CommonFend :feedList="feedList"></CommonFend>
   	 <mt-button class="button" size="large" type="danger" @click="openPickers">primary</mt-button>
 
   </div>
@@ -50,40 +48,38 @@ export default {
        CommonFend
     },
     created(){
-		this.$ui.Indicator.open({
+		/*this.$ui.Indicator.open({
 		  	text: '加载中...',
 		  	spinnerType: 'snake'
-		});
+		});*/
 	},
 	updated(){
-		this.$ui.Indicator.close();
+		// this.$ui.Indicator.close();
 	},
     methods: {
     	request(){
-    		console.log(this.$config.url)
-	    	this.$axios({
-			  	method: 'post',
-			  	url: '/kupai/h5/bidListByClassId',
-			  	data: {
-			    	classId:90,
-    				page:1,
-    				pageSize:6
-			  	}
-			}).then(function(response) {
-				if(response.data.status){
-  				   this.feedList = response.data.data.feedList;
-				}
-			}.bind(this));
+    		if (!this.loading){
+    			this.loading = true;
+		    	this.$axios({
+				  	method: 'post',
+				  	url: '/kupai/h5/bidListByClassId',
+				  	data: {
+				    	classId:88,
+	    				page:this.page,
+	    				pageSize:6
+				  	}
+				}).then(function(response) {
+					if(response.data.status){
+					   if(response.data.data.feedList.length == 0){
+					   	  this.hasNext = 0;
+					   }else{
+					   	  this.feedList = this.feedList.concat(response.data.data.feedList);
+					   }
+					}
+					this.loading = false;
+				}.bind(this));
+    		}
 
-			this.$axios({
-			  	method: 'get',
-			  	url: '/kupai/bidOptimization/getBidDetail',
-			  	data: {
-			    	saleId:1474446571
-			  	}
-			}).then(function(response) {
-  				 //this.feedList = response.data.data.feedList;
-			}.bind(this));
     	},
     	evsent(data){
           this.picker = data;
@@ -94,10 +90,22 @@ export default {
     	}
     },
     mounted(){
-    	 var that = this;
+    	this.request();
 	  	 window.addEventListener('resize', function(){
-	  	 	that.msg = document.body.offsetWidth
-	  	 }, false)
+	  	 	this.msg = document.body.offsetWidth
+	  	 }.bind(this), false);
+	  	 window.addEventListener("scroll", function(event) {
+	  	 	var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+            var scrollHeight = document.documentElement.scrollHeight;
+            var clientHeight = document.documentElement.clientHeight;
+	  	 	if(!this.hasNext || this.loading){
+			  	 return;
+			}
+            if(scrollHeight <= clientHeight + scrollTop + 60) {
+               this.page++;
+               this.request();
+            }        
+        }.bind(this));
   	},
 
   };

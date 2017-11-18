@@ -7,6 +7,10 @@ axios.defaults.timeout = 5000;
 */
 axios.interceptors.request.use(
     config => {
+        Indicator.open({
+            text: '加载中...',
+            spinnerType: 'snake'
+        });
         config.headers = {
             '_bkAccessToken_':"token",
             'kp-app-id':10001,
@@ -27,6 +31,7 @@ axios.interceptors.request.use(
 */
 axios.interceptors.response.use(
     response => {
+        Indicator.close();
         if(!response.data.status){
             Toast(response.data.msg);
         }

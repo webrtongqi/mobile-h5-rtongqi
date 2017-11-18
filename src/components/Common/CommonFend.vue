@@ -33,6 +33,7 @@ import FeedList from './FeedList.vue'
     props:['feedList'],
     methods: {
     	loadData(themeId,index,$event){
+    		console.log($event)
     		var page = $event.target.getAttribute('page');
     		this.$axios({
 			  	method: 'post',
