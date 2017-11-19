@@ -25,15 +25,23 @@ import FeedList from './FeedList.vue'
     data() {
       return {
       	url:"https://sapi.51kupai.com/mobile/images",
+      	load:{
+      		hasNext:1,
+      		loading:false,
+      		page:1,
+      	}
       };
     },
+    props:['feedList','callback'],
     components: {
 		FeedList
     },
-    props:['feedList'],
+    mounted(){
+    	this.pullData();
+    	this.callback();
+    },
     methods: {
     	loadData(themeId,index,$event){
-    		console.log($event)
     		var page = $event.target.getAttribute('page');
     		this.$axios({
 			  	method: 'post',
@@ -48,10 +56,22 @@ import FeedList from './FeedList.vue'
   				  $event.target.setAttribute('page',++page);
 				}
 			}.bind(this));
+    	},
+    	pullData(){
+    		this.$emit("load",this.load);
+	    	window.addEventListener("scroll", function(event) {
+		  	 	var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+	            var scrollHeight = document.documentElement.scrollHeight;
+	            var clientHeight = document.documentElement.clientHeight;
+		  	 	if(!this.load.hasNext || this.load.loading){
+				  	 return;
+				}
+	            if(scrollHeight <= clientHeight + scrollTop + 60) {
+	               this.load.page++;
+	               this.callback();
+	            }        
+	        }.bind(this));
     	}
-    },
-    updated(){
-    	
     }
   };
 </script>

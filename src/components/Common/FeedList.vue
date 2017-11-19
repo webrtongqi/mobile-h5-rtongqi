@@ -1,6 +1,6 @@
 <template>
     <li class="feed-list">
-	    <div class="institution one_line" v-if="organization(bidsLists.bidGoods.supplier)">
+	    <div class="institution one_line" v-if="isOrganization(bidsLists.bidGoods.supplier)">
 	       <div class="organization-head">
 		       <img :src="bidsLists.bidGoods.supplier.supplierPic" 
 		       class="organization-head-img"
@@ -9,7 +9,7 @@
 	       </div>
 	      <span>{{bidsLists.bidGoods.supplier.supplierName}}</span>
 	    </div>
-	    <div class="feed-list-top" @click="skip(bidsLists)">
+	    <div class="feed-list-top">
 	      	 <CountDown :data="bidsLists"></CountDown>
 		    <img :src="imgHref(bidsLists.bidGoods.pic,720)" 
 		      class="auction-img" 
@@ -21,11 +21,11 @@
 			    <p class="location one_line" v-if="bidsLists.isOnoffline==2?true:false"><img src="https://sapi.51kupai.com/mobile/images/teaset/location.png" />&nbsp;<span>{{bidsLists.onofflineExt.location}}</span></p>
 		    </div>
      	</div>
-	     <div class="referrers clearfix" v-if="organization(bidsLists.bidGoods.recommenduser)">
+	     <div class="referrers clearfix" v-if="isOrganization(bidsLists.bidGoods.recommenduser)">
 		    <div class="referrer-tops clearfix">
 		       <img class="top-img" :src="bidsLists.bidGoods.recommenduser.recommendPic" 
 		       onerror="javascript:this.src='https://sapi.51kupai.com/mobile/images/teaset/portrait.png'" />
-		       <img v-if="approve(bidsLists.bidGoods.recommenduser)?true:false" :src="approve(bidsLists.bidGoods.recommenduser)" class="approve" />
+		       <img v-if="isBindSupplier(bidsLists.bidGoods.recommenduser)?true:false" :src="isBindSupplier(bidsLists.bidGoods.recommenduser)" class="approve" />
 		       <div class="name">
 		        <p class="name-top clearfix">
 		          <span class="maweidu">{{bidsLists.bidGoods.recommenduser.recommendName}}</span>
@@ -64,14 +64,14 @@
     },
     props:['bidsLists'],
     methods: {
-    	organization(data){
+    	isOrganization(data){
     		if(JSON.stringify(data) != "{}"){
     			return true;
     		}else{
     			return false;
     		}
     	},
-    	approve(data){
+    	isBindSupplier(data){
     		if(data.isBindSupplier == 1){
 				return this.url + "/teaset/blue-v.png";
 			}else if(data.recommendAuthStatus == 1){
@@ -79,14 +79,8 @@
 			}else{
 				return false;
 			}
-    	},
-    	skip(data){
-    		alert(data.saleId)
     	}
-    },
-    mounted(){
-    	//console.log(this.bidsLists)
-  	}
+    }
   };
 </script>
 <style lang="scss" scoped>

@@ -1,6 +1,6 @@
 <template>
   <div class="Main">
-    <TimePicker @evs="evsent" ref="child" :message="time" :mes="parentMsg"></TimePicker>
+    <div class="auto"></div>
     <mt-header title="库拍" :style="{ width: msg + 'px' }">
 	  <div slot="left">
 	    <mt-button  icon="back"></mt-button>
@@ -18,14 +18,13 @@
 	  	 <img src="//img.51kupai.com/pic/750-500-e16de4572915d40f90bbe46444746690/750">
 	  </mt-swipe-item>
 	</mt-swipe>
-     <CommonFend :feedList="feedList"></CommonFend>
+     <CommonFend :feedList="feedList" @load="loading" :callback="requestData"></CommonFend>
   	 <mt-button class="button" size="large" type="danger" @click="openPickers">primary</mt-button>
-
+  	 <TimePicker @evs="evsent" ref="child" :message="time" :mes="parentMsg"></TimePicker>
   </div>
 </template>
 <script>
 import TimePicker from '../Common/TimePicker.vue'
-import CountDown from '../Common/CountDown.vue'
 import CommonFend from '../Common/CommonFend.vue'
 export default {
     data() {
@@ -37,77 +36,55 @@ export default {
       	parentMsg:'',
       	feedList:[],
       	url:"https://sapi.51kupai.com/mobile/images",
-      	hasNext:1,
-      	loading:false,
-      	page:1,
+      	load:{}
       };
     },
     components: {
        TimePicker,
-       CountDown,
        CommonFend
     },
-    created(){
-		/*this.$ui.Indicator.open({
-		  	text: '加载中...',
-		  	spinnerType: 'snake'
-		});*/
-	},
-	updated(){
-		// this.$ui.Indicator.close();
-	},
+    mounted(){
+	  	this.setWidth();
+  	},
     methods: {
-    	request(){
-    		if (!this.loading){
-    			this.loading = true;
+    	setWidth(){
+	    	 window.addEventListener('resize', function(){
+		  	 	this.msg = document.body.offsetWidth
+		  	 }.bind(this), false);
+    	},
+    	requestData(){
+    		if (!this.load.loading){
+    			this.load.loading = true;
 		    	this.$axios({
 				  	method: 'post',
 				  	url: '/kupai/h5/bidListByClassId',
 				  	data: {
-				    	classId:88,
-	    				page:this.page,
-	    				pageSize:6
+				    	classId:64,
+	    				page:this.load.page,
+	    				pageSize:1
 				  	}
 				}).then(function(response) {
 					if(response.data.status){
 					   if(response.data.data.feedList.length == 0){
-					   	  this.hasNext = 0;
+					   	  this.load.hasNext = 0;
 					   }else{
 					   	  this.feedList = this.feedList.concat(response.data.data.feedList);
 					   }
 					}
-					this.loading = false;
+					this.load.loading = false;
 				}.bind(this));
     		}
-
     	},
     	evsent(data){
           this.picker = data;
-          console.log(data)
     	},
     	openPickers(){
     		this.$refs.child.openPicker()
+    	},
+    	loading(data){
+    		this.load = data;
     	}
     },
-    mounted(){
-    	this.request();
-	  	 window.addEventListener('resize', function(){
-	  	 	this.msg = document.body.offsetWidth
-	  	 }.bind(this), false);
-	  	 window.addEventListener("scroll", function(event) {
-	  	 	var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-            var scrollHeight = document.documentElement.scrollHeight;
-            var clientHeight = document.documentElement.clientHeight;
-	  	 	if(!this.hasNext || this.loading){
-			  	 return;
-			}
-            if(scrollHeight <= clientHeight + scrollTop + 60) {
-               this.page++;
-               this.request();
-            }        
-        }.bind(this));
-  	},
-
   };
 </script>
 <style lang="scss" scoped>
@@ -128,5 +105,8 @@ export default {
 	}
 	 .mint-swipe{
 	 	height: 200px;
+	}
+	.auto{
+		height:50px;
 	}
 </style>

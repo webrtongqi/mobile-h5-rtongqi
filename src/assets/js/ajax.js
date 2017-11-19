@@ -67,8 +67,10 @@ axios.interceptors.response.use(
                   default:
                     Toast('未知错误');
                 }
-                Indicator.close();
+            }else{
+                Toast('请检查你的网络！');
             }
+        Indicator.close();
         return Promise.reject(error.response.data);
     });
 export default axios;
